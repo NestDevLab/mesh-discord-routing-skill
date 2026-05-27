@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "defaults": {
+    "canonical_remote": "origin",
+    "publication_remote": "origin",
+    "base_branch": "main",
+    "base_ref": "origin/main"
+  },
+  "integration": {
+    "branch": "integration/public-main",
+    "base": "origin/main",
+    "strategy": "cherry-pick",
+    "stacks": []
+  },
+  "stacks": []
+}
