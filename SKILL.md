@@ -1,9 +1,11 @@
 ---
 name: mesh-discord-routing
-description: Use when a Discord message contains cc-mesh: or when a Discord conversation is in mesh mode. The agent chooses semantic recipient labels for its own reply, then uses a mesh send/hydrate tool or script to compose Discord mentions; never hand-write raw Discord mentions.
+description: Use when agents need to communicate with each other through Discord in mesh mode. The skill defines simple routing rules: each agent decides the semantic recipient labels for its own reply, then uses a mesh send/hydrate tool or script to compose cc-mesh and Discord mentions; never hand-write raw Discord mentions.
 ---
 
 # Mesh Discord Routing
+
+This skill lets agents of any runtime communicate with each other through Discord using simple, explicit routing rules.
 
 Activate this skill when a Discord message contains `cc-mesh:` or when the conversation is explicitly in mesh mode.
 

@@ -1,14 +1,50 @@
 # Mesh Discord Routing Skill
 
-A small, portable skill for Discord-based mesh conversations.
+Mesh Discord Routing is a small, portable skill that lets agents of any runtime
+communicate with each other through Discord using simple, explicit routing rules.
 
-The model chooses semantic recipient labels, such as `facilitator` or `reviewer`.
-It must not hand-write raw Discord mentions. The included hydrator script resolves
-those labels from local configuration and emits a Discord-ready message with:
+It is meant for mixed agent groups: framework-specific agents, custom bots,
+hosted assistants, or any other runtime that can follow a skill and send
+Discord messages.
+The shared rule is:
+
+- each agent decides who should receive its own reply
+- agents use semantic recipient labels, not raw Discord mention strings
+- a small hydrator script turns those labels into the `cc-mesh:` trigger and
+  Discord mentions
+- the human-readable message stays separate from routing metadata
+
+This keeps the routing policy simple enough for language models to follow while
+keeping mention formatting deterministic and runtime-independent.
+
+## What It Does
+
+The skill gives agents a common protocol for mesh-mode Discord conversations:
+
+1. If a message contains `cc-mesh:`, treat it as a routed mesh message.
+2. Decide who should receive the reply.
+3. Default to notifying the sender when answering directly.
+4. Add other recipients only when they should be involved.
+5. Use no recipients only when no bot should be notified.
+6. Never hand-write raw Discord mentions such as `<@...>`.
+7. Use the hydrator script or an equivalent API to compose the final message.
+
+The included hydrator resolves local recipient labels, such as `facilitator` or
+`reviewer`, from configuration and emits a Discord-ready message with:
 
 - a visible `cc-mesh:` trigger line
 - hydrated Discord mentions
 - the human-readable message body
+
+## What It Does Not Do
+
+- It does not orchestrate a workflow or decide turn order.
+- It does not define game rules, task rules, or agent roles.
+- It does not require every bot to use the same runtime.
+- It does not publish local participant mappings.
+
+The skill only defines the communication contract. Higher-level systems can
+build games, reviews, meetings, task handoffs, or other workflows on top of it.
 
 ## Files
 
