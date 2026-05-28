@@ -24,6 +24,13 @@ test("hydrates cc-mesh labels into mentions", () => {
   );
 });
 
+test("refuses to silently hydrate unknown recipient labels", () => {
+  assert.throws(
+    () => hydrateCcMeshMessage("cc-mesh: missing\nCan you review?", participants),
+    (err) => err.code === "UNKNOWN_RECIPIENTS" && err.unknown.includes("missing")
+  );
+});
+
 test("matches local participant aliases", () => {
   assert.equal(matchesLocalParticipant("cc-mesh: host\nhello", ["facilitator"], participants), true);
   assert.equal(matchesLocalParticipant("cc-mesh: reviewer\nhello", ["facilitator"], participants), false);

@@ -46,6 +46,7 @@ function normalizeConfig(raw = {}) {
   return {
     enabled: raw.enabled !== false,
     hydrateOutbound: raw.hydrateOutbound !== false,
+    outboundFailurePolicy: ["block", "warn"].includes(raw.outboundFailurePolicy) ? raw.outboundFailurePolicy : "block",
     addressInbound: raw.addressInbound !== false,
     configPath: raw.configPath,
     localLabel: raw.localLabel,
@@ -91,6 +92,16 @@ export default definePluginEntry({
         return { content: hydrated };
       } catch (err) {
         api.logger.warn(`mesh-discord-routing: outbound hydration failed: ${err.message}`);
+        if (cfg.outboundFailurePolicy === "block") {
+          return {
+            cancel: true,
+            cancelReason: "mesh_hydration_failed",
+            metadata: {
+              code: err.code || "HYDRATION_FAILED",
+              unknown: Array.isArray(err.unknown) ? err.unknown : undefined
+            }
+          };
+        }
       }
     });
   }

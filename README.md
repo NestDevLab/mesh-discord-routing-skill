@@ -137,7 +137,11 @@ The OpenClaw plugin:
 
 - treats inbound `cc-mesh:` messages addressed to the local label as mentioned
 - hydrates outbound `cc-mesh:` messages that contain labels but no mentions
+- blocks outbound raw `cc-mesh:` messages when hydration fails by default
 - uses the same participant config as `mesh-hydrate`
+
+Set `outboundFailurePolicy` to `warn` only when you deliberately want legacy
+behavior that logs hydration failures but still lets the raw message continue.
 
 Hermes support is shipped as `hermes/cc_mesh_bridge.py`, a small helper for a
 Hermes gateway hook or wrapper. See `hermes/README.md`.

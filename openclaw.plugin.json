@@ -33,6 +33,12 @@
       "hydrateOutbound": {
         "type": "boolean",
         "default": true
+      },
+      "outboundFailurePolicy": {
+        "type": "string",
+        "enum": ["block", "warn"],
+        "default": "block",
+        "description": "What to do when an outbound cc-mesh message cannot be hydrated. block prevents silent raw cc-mesh delivery; warn preserves legacy behavior."
       }
     }
   }
