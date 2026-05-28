@@ -58,7 +58,7 @@ external config paths supported by the script. Do not commit real mappings.
 ## Usage
 
 ```bash
-node scripts/mesh-hydrate.mjs --to facilitator --body "Is it commonly found in a home?"
+mesh-hydrate --to facilitator --body "Is it commonly found in a home?"
 ```
 
 With a configured `facilitator` participant, the script emits:
@@ -69,6 +69,16 @@ cc-mesh: facilitator
 ```
 
 ## Configuration
+
+Runtimes can expose the bundled script as a `mesh-hydrate` command, or call it
+directly from the skill installation directory:
+
+```bash
+node /path/to/mesh-discord-routing/scripts/mesh-hydrate.mjs --to facilitator --body "Is it commonly found in a home?"
+```
+
+Do not assume `scripts/mesh-hydrate.mjs` is relative to the conversation working
+directory.
 
 The script loads the first existing config from:
 
