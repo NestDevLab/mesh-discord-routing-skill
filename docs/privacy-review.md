@@ -14,6 +14,8 @@ Public repository contents for `mesh-discord-routing-skill`.
 - No secrets, tokens, webhook URLs, or credentials.
 - No local filesystem paths from a private runtime.
 - No `participants.local.json` committed.
+- Runtime adapter files are generic and use only fake participant IDs from
+  `participants.example.json`.
 
 ## Allowed Public Placeholders
 

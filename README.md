@@ -50,6 +50,9 @@ build games, reviews, meetings, task handoffs, or other workflows on top of it.
 
 - `SKILL.md` - runtime instructions for mesh-mode routing.
 - `scripts/mesh-hydrate.mjs` - label-to-mention hydrator.
+- `src/core.js` - shared parser/hydrator logic for adapters.
+- `openclaw/` - OpenClaw support plugin.
+- `hermes/` - Hermes bridge helper for installations with gateway hooks.
 - `participants.example.json` - example participant config with fake IDs.
 
 Local participant mappings belong in `participants.local.json`, or in one of the
@@ -105,3 +108,36 @@ Config shape:
 This repository is intended to be publishable. It must not contain real Discord
 IDs, private agent names, server names, internal paths, tokens, or local
 participant mappings.
+
+## Runtime Adapters
+
+The skill remains the first-class contract. Runtime adapters are optional support
+layers that make the same contract harder to misuse.
+
+OpenClaw can load the included plugin:
+
+```json
+{
+  "plugins": {
+    "entries": {
+      "mesh-discord-routing": {
+        "source": "/path/to/mesh-discord-routing-skill",
+        "enabled": true,
+        "config": {
+          "localLabels": ["facilitator"],
+          "configPath": "/path/to/participants.local.json"
+        }
+      }
+    }
+  }
+}
+```
+
+The OpenClaw plugin:
+
+- treats inbound `cc-mesh:` messages addressed to the local label as mentioned
+- hydrates outbound `cc-mesh:` messages that contain labels but no mentions
+- uses the same participant config as `mesh-hydrate`
+
+Hermes support is shipped as `hermes/cc_mesh_bridge.py`, a small helper for a
+Hermes gateway hook or wrapper. See `hermes/README.md`.
